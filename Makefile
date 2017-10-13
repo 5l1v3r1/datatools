@@ -7,7 +7,9 @@ VERSION = $(shell grep -m1 'Version = ' $(PROJECT).go | cut -d\"  -f 2)
 
 BRANCH = $(shell git branch | grep '* ' | cut -d\  -f 2)
 
-build: bin/csvcols bin/csvrows bin/csvfind bin/csvjoin bin/jsoncols bin/jsonrange bin/xlsx2json bin/xlsx2csv bin/csv2mdtable bin/csv2xlsx bin/csv2json bin/vcard2json bin/jsonjoin bin/jsonmunge bin/findfile bin/finddir bin/mergepath bin/reldate bin/range bin/timefmt bin/urlparse
+PKGASSETS = $(shell which pkgassets)
+
+build: bin/csvcols bin/csvrows bin/csvfind bin/csvjoin bin/jsoncols bin/jsonrange bin/xlsx2json bin/xlsx2csv bin/csv2mdtable bin/csv2xlsx bin/csv2json bin/vcard2json bin/jsonjoin bin/jsonmunge bin/findfile bin/finddir bin/mergepath bin/reldate bin/range bin/timefmt bin/urlparse bin/sheets2csv
 
 
 bin/csvcols: datatools.go cmds/csvcols/csvcols.go
@@ -74,6 +76,13 @@ bin/urlparse: datatools.go cmds/urlparse/urlparse.go
 	go build -o bin/urlparse cmds/urlparse/urlparse.go 
 
 
+bin/sheets2csv: datatools.go cmds/sheets2csv/sheets2csv.go cmds/sheets2csv/help.go
+	go build -o bin/sheets2csv cmds/sheets2csv/sheets2csv.go cmds/sheets2csv/help.go
+
+cmds/sheets2csv/help.go:
+	pkgassets -o cmds/sheets2csv/help.go -p main -ext=".md" -strip-prefix="/" -strip-suffix=".md" Help docs/sheets2csv
+	git add cmds/sheets2csv/help.go
+
 test:
 	go test
 
@@ -96,8 +105,9 @@ publish:
 	./publish.bash
 
 clean: 
-	if [ -d bin ]; then /bin/rm -fR bin; fi
-	if [ -d dist ]; then /bin/rm -fR dist; fi
+	if [ "$(PKGASSETS)" != "" ] && [ -f cmds/sheets2csv/help.go ]; then rm cmds/sheets2csv/help.go; fi
+	if [ -d bin ]; then rm -fR bin; fi
+	if [ -d dist ]; then rm -fR dist; fi
 
 install:
 	env GOBIN=$(GOPATH)/bin go install cmds/csvcols/csvcols.go

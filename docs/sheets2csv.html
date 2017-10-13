@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caltech Library's Digital Library Development Sandbox</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<header>
+<a href="http://library.caltech.edu"><img src="/assets/liblogo.gif" alt="Caltech Library logo"></a>
+</header>
+<nav>
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="../">up</a></li>
+<li><a href="./">Documentation</a></li>
+<li><a href="../how-to/">How To &hellip;</a></li>
+</ul>
+
+</nav>
+
+<section>
+<h1>USAGE</h1>
+
+<pre><code>    sheets2csv CLIENT_SECRET_JSON SHEETS_ID SHEET_NAME [CELL_RANGE]
+</code></pre>
+
+<h2>Description</h2>
+
+<p>sheets2csv accesses a specific sheet id and sheet name in Google Sheets and writes the output as
+a CSV file.</p>
+
+<p>It can work from environment settings for the following variables or from options on the commmand</p>
+
+<ul>
+<li>GOOGLE_CLIENT_SECRET_JSON (optional) holds the path/filanme to a client secret json file downloaded from Google&rsquo;s developer dashboard</li>
+<li>GOOGLE_SHEET_ID (optional) holds the hash id for the Google Sheets you want to access</li>
+
+<li><p>GOOGLE_SHEET_NAME (option) holds the specific sheet name in spreadsheet identified by the GOOGLE_SHEET_ID</p>
+
+<p>-cell-range set the cell range (e.g. A1:ZZ)
+-client-secret  set path to client secret json
+-example    display example(s)
+-h  display help
+-help   display help
+-l  display license
+-license    display license
+-o  set the filename for output
+-output set the filename for output
+-sheet-id   set the Google Sheet ID
+-sheet-name set the Google Sheet Name
+-v  display version
+-version    display version</p></li>
+</ul>
+
+<h2>Example</h2>
+
+<p>In this example we use a Google sheet id is <em>XOERWASDEWRWEREWRWEFVE23492wd</em>,
+our sheet name is &ldquo;Untitle 1&rdquo;, we want get cells ranging from &ldquo;A1&rdquo; through
+column &ldquo;G&rdquo;. and out output CSV file will be called
+and <em>data.csv</em>. We are passing in the client secret json file via the
+environment.</p>
+
+<pre><code class="language-shell">    export GOOGLE_CLIENT_SECRET_JSON=&quot;etc/client_secret.json&quot;
+    sheets2csv \
+        -cell-range=&quot;A1:G&quot; \
+        -sheet-name=&quot;Untitle 1&quot; \
+        -sheet-id=XOERWASDEWRWEREWRWEFVE23492wd \
+        -output=data.csv
+</code></pre>
+
+<p>If you want the results to go to <em>standard out</em> and specify the
+client secret sheet id, sheet name and cell range in order.</p>
+
+<pre><code class="language-shell">    export GOOGLE_CLIENT_SECRET_JSON=&quot;etc/client_secret.json&quot;
+    sheets2csv XOERWASDEWRWEREWRWEFVE23492wd &quot;Untitle 1&quot; &quot;A1:G&quot;
+</code></pre>
+
+<p>sheets2csv v0.0.15</p>
+
+</section>
+
+<footer>
+<span><h1><A href="http://caltech.edu">Caltech</a></h1></span>
+<span>&copy; 2017 <a href="https://www.library.caltech.edu/copyright">Caltech library</a></span>
+<address>1200 E California Blvd, Mail Code 1-32, Pasadena, CA 91125-3200</address> 
+<span>Phone: <a href="tel:+1-626-395-3405">(626)395-3405</a></span>
+<span><a href="mailto:library@caltech.edu">Email Us</a></span>
+<a class="cl-hide" href="sitemap.xml">Site Map</a>
+</footer>
+</body>
+</html>
